@@ -3,7 +3,8 @@ var env = require('./../env_util');
 
 async function characters(req,res) {
      
-    let url = env.baseurl + 'characters?apikey=' + env.publicKey + '&hash=' + env.marvelHasher(); 
+    let url = env.baseurl + "characters?ts=1&apikey=" + env.publicKey_ +  "&hash=" + env.marvelHasher();
+   
     let headers = {
         "headers":{
             "content-type": "application/json"
@@ -12,13 +13,14 @@ async function characters(req,res) {
 
     try {
  
-        const response = await get(url,headers);
-
-        res.status(200).send(response);
-    
+        await get(url,headers)
+        .then((response)=>{
+            res.status(200).send(response.data); 
+        });  
+        
     } catch (error) {
 
-        console.log(error.response); 
+        console.log("error diabolico",error);   
         res.status(500).send(error);
     
     } 
