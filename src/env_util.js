@@ -6,7 +6,6 @@ let publicKey_ = "bc688603c4ef146c23f721ba279c11b3";
 function marvelHasher(){
     var md5 = new Md5();
     var ret = md5.appendStr("1"+privateKey_+publicKey_).end().toString();
-    console.log(ret);
     return ret;
 }   
     
