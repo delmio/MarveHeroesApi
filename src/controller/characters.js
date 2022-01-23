@@ -1,72 +1,51 @@
-const { get } = require("axios");
-var env = require('./../env_util');
+const { moduleCharacter, moduleCharacterWithOffset, moduleCharactersById } = require("./../module/characters.module");
+
 
 async function characters(req,res) {
-     
-    let url = env.baseurl + "characters?ts=1&apikey=" + env.publicKey_ +  "&hash=" + env.marvelHasher();
-   
-    let headers = {
-        "headers":{
-            "content-type": "application/json"
-        }
-    };
-
+    
     try {
- 
-        await get(url,headers)
-        .then((response)=>{
-            res.status(200).send(response.data); 
-        });  
-        
-    } catch (error) {
+
+        const result = await moduleCharacter();
+        res.status(200).send(result);
+
+    }catch(error){
+
         res.status(500).send(error);
-    } 
+
+    }
     
 }
 
 async function charactersWithOffset(req,res) {
      
-    let url = env.baseurl + "characters?ts=1&apikey=" + env.publicKey_ +  "&hash=" + env.marvelHasher() + '&offset=' + req.params.offset;
-   
-    let headers = {
-        "headers":{
-            "content-type": "application/json"
-        }
-    };
-
     try {
- 
-        await get(url,headers)
-        .then((response)=>{
-            res.status(200).send(response.data); 
-        });  
-        
-    } catch (error) {
+
+        const result = await moduleCharacterWithOffset(req.params.offset);
+
+        res.status(200).send(result);
+
+    }catch(error){
+
         res.status(500).send(error);
-    } 
+
+    }
     
 }
 
 async function charactersById(req,res){
 
-    let url = env.baseurl + "characters/"+req.params.id+"?ts=1&apikey=" + env.publicKey_ +  "&hash=" + env.marvelHasher();
+    try {
 
-    let headers = {
-        "headers":{
-            "content-type": "application/json"
-        }
+        const result = await moduleCharactersById(req.params.id);
+
+        res.status(200).send(result);
+
+    }catch(error){
+
+        res.status(500).send(error);
+
     }
 
-    try {
- 
-        await get(url,headers)
-        .then((response)=>{
-            res.status(200).send(response.data); 
-        });  
-        
-    } catch (error) {
-        res.status(500).send(error);
-    } 
 
 }
 
