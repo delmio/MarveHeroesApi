@@ -49,9 +49,14 @@ async function charactersById(req,res){
 
 }
 
+
+async function characterSaveColor(req,res){
+
+}
  
 module.exports = {
     characters,
     charactersById,
-    charactersWithOffset
+    charactersWithOffset,
+    characterSaveColor
 }

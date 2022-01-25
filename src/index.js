@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
+const db = require('./db_con');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -16,11 +17,13 @@ app.use((req,res,next)=>{
     next();
 });
 
-
-//rutas
-
 app.use(require('./routes/routes'));
 
-app.listen(5500, () =>{
-    console.log('Escuchando en puerto 5500');
-});
+try{
+    app.listen(5500, () =>{
+        db();
+        console.log('Escuchando en puerto 5500');
+    });
+}catch(error){
+    console.log(error);
+}
