@@ -1,4 +1,9 @@
-const { moduleCharacter, moduleCharacterWithOffset, moduleCharactersById } = require("./../module/characters.module");
+const { moduleCharacter, 
+        moduleCharacterWithOffset, 
+        moduleCharactersById,
+        moduleFindColorHero,
+        moduleSaveColorHero,
+        moduleUpdateColor } = require("./../module/characters.module");
 
 
 async function characters(req,res) {
@@ -51,6 +56,60 @@ async function charactersById(req,res){
 
 
 async function characterSaveColor(req,res){
+
+    let resp = {
+        ok: false,
+        error: null,
+        respuesta: null
+    }
+
+    try {
+
+        const r = await moduleFindColorHero(req.body);
+
+        if(r == null){
+
+            try{
+
+                const _save = await moduleSaveColorHero(req.body);
+                resp.ok = true;
+                resp.respuesta = _save; 
+                res.status(200).send(resp);
+
+            }catch(error){
+
+                r.error = error;
+                res.status(500).send(resp);
+        
+            }
+
+        }else{
+
+            try{
+
+                const _update = await moduleUpdateColor(req.body);
+                resp.ok = true;
+                resp.respuesta = _update; 
+                res.status(200).send(resp);
+
+            }catch(error){
+
+                r.error = error;
+                res.status(500).send(resp);
+        
+            }
+
+        }
+        
+    }catch(error){
+
+        r.error = error;
+        res.status(500).send(resp);
+
+    }
+
+
+
 
 }
  
